@@ -98,9 +98,17 @@ export async function getServerSideProps() {
     const newsResults = await fetch("https://saurav.tech/NewsAPI/top-headlines/category/health/us.json").then((res) => res.json())
 
     //Who to follow?
-    const randomUsersResults = await fetch("https://randomuser.me/api/?results=30&inc=name,login,picture").then((res) => res.json()).catch(err => {
-        console.log(err)
-    });
+    let randomUsersResults = [];
+
+    try {
+        const res = await fetch(
+            "https://randomuser.me/api/?results=30&inc=name,login,picture"
+        );
+
+        randomUsersResults = await res.json();
+    } catch (e) {
+        randomUsersResults = [];
+    }
     return {
         props: {
             newsResults,
